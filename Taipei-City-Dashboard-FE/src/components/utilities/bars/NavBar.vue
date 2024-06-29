@@ -4,7 +4,7 @@
 
 <script setup>
 const { VITE_APP_TITLE } = import.meta.env;
-import { computed } from "vue";
+import { computed , ref } from "vue";
 import { useRoute } from "vue-router";
 import { useFullscreen } from "@vueuse/core";
 import { useAuthStore } from "../../../store/authStore";
@@ -12,16 +12,26 @@ import { useDialogStore } from "../../../store/dialogStore";
 
 import UserSettings from "../../dialogs/UserSettings.vue";
 import ContributorsList from "../../dialogs/ContributorsList.vue";
+import IntroduceModal from "../../dialogs/IntroductionModal.vue";
 
 const route = useRoute();
 const authStore = useAuthStore();
 const dialogStore = useDialogStore();
 const { isFullscreen, toggle } = useFullscreen();
+const showModal = ref(false);
 
 const linkQuery = computed(() => {
 	const { query } = route;
 	return `?index=${query.index}`;
 });
+
+const introduce = () => {
+	showModal.value = true;
+}
+
+const closeModal = () => {
+	showModal.value = false;
+}
 </script>
 
 <template>
@@ -73,6 +83,10 @@ const linkQuery = computed(() => {
       </router-link>
     </div>
     <div class="navbar-user">
+      <button @click="introduce">
+        <span>speaker_notes</span>
+      </button>
+
       <button
         v-if="!(authStore.isMobileDevice && authStore.isNarrowDevice)"
         class="hide-if-mobile"
@@ -160,6 +174,11 @@ const linkQuery = computed(() => {
         </button>
       </div>
     </div>
+
+    <IntroduceModal
+      :show="showModal"
+      @close="closeModal"
+    />
   </div>
 </template>
 
