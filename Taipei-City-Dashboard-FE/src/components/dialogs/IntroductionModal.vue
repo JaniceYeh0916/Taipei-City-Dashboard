@@ -8,9 +8,29 @@ export default {
 		}
 	},
 	emits: ['close'],
+	data() {
+		return {
+			currentPage: 1,
+			totalPages: 4
+		};
+	},
 	methods: {
 		closeModal() {
 			this.$emit('close');
+		},
+		nextPage() {
+			if (this.currentPage < this.totalPages) {
+				this.currentPage++;
+			}else {
+				this.currentPage = 1;
+			}
+		},
+		prevPage() {
+			if (this.currentPage > 1) {
+				this.currentPage--;
+			}else {
+				this.currentPage = this.totalPages;
+			}
 		}
 	}
 }
@@ -23,8 +43,64 @@ export default {
     @click.self="closeModal"
   >
     <div class="modal-content">
-      <h2>Introduce</h2>
-      <p>This is the content of the modal.</p>
+      <div
+        v-if="currentPage === 1"
+        class="intro-page"
+      >
+        <h2>訪客登入</h2>
+        <img
+          class="intro-page-image"
+          src="../../assets/images/intro1.png"
+        >
+      </div>
+	  
+      <div
+        v-if="currentPage === 2"
+        class="intro-page"
+      >
+        <h2>收藏組件</h2>
+        <img
+          class="intro-page-image"
+          src="../../assets/images/intro2.png"
+        >
+      </div>
+
+      <div
+        v-if="currentPage === 3"
+        class="intro-page"
+      >
+        <h2>建立個人儀表板</h2>
+        <img
+          class="intro-page-image"
+          src="../../assets/images/intro3.png"
+        >
+      </div>
+
+      <div
+        v-if="currentPage === 4"
+        class="intro-page"
+      >
+        <h2>刪除個人儀表板</h2>
+        <img
+          class="intro-page-image"
+          src="../../assets/images/intro4.png"
+        >
+      </div>
+
+      <div class="modal-footer">
+        <button
+          :disabled="currentPage === 1"
+          @click="prevPage"
+        >
+          ←
+        </button>
+        <button
+          :disabled="currentPage === totalPages"
+          @click="nextPage"
+        >
+          →
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -47,9 +123,33 @@ export default {
 	width: fit-content;
 	height: fit-content;
 	background-color: rgba(0, 0, 0, 0.5);
-	padding: 20px;
+	padding: 10px;
 	border-radius: 10px;
 	overflow: auto;
 }
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 40px;
+}
+
+.intro-page {
+	width: fit-content;
+	height: fit-content;
+	overflow: auto;
+	text-align: center;
+
+	&-image {
+		width: 700px;
+		height: 400px;
+	}
+}
+
+
 </style>
   
