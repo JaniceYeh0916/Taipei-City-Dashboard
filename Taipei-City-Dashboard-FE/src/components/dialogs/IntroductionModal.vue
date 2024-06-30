@@ -94,6 +94,11 @@ export default {
         >
           ←
         </button>
+
+        <p class="pageNum">
+          {{ currentPage }}
+        </p>
+
         <button
           :disabled="currentPage === totalPages"
           @click="nextPage"
@@ -129,13 +134,18 @@ export default {
 }
 
 .modal-footer {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 button {
-  padding: 10px 20px;
-  font-size: 40px;
+	padding: 10px 20px;
+	font-size: 40px;
+}
+
+.pageNum {
+	padding-top: 27px;
+	font-size: 20px;
 }
 
 .intro-page {
